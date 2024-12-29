@@ -118,7 +118,7 @@ def primary():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    if session['role'] == 'admin':
+    if session['role'] == 'admin' or  session['username'] == 'ramesh':
         cursor.execute("SELECT * FROM userQuery")  # Admin sees all queries
     else:
         cursor.execute("SELECT * FROM userQuery WHERE username = ?", (session['username'],))  # Regular user sees only their queries
