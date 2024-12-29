@@ -1,5 +1,5 @@
 Flask==3.1.0            # Flask framework for the web application
-Flask-Cors==3.1.1        # To handle Cross-Origin Resource Sharing (CORS) for your API
+Flask-Cors==2.1.2          # To handle Cross-Origin Resource Sharing (CORS) for your API
 requests==2.31.0         # For making HTTP requests (e.g., for interacting with Gemini AI)
 httpx==0.23.0            # For async HTTP requests (ensure compatibility with other dependencies)
 gunicorn==20.1.0         # WSGI HTTP server for deploying Flask app in production
