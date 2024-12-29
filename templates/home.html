@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Application</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
+        .navbar { text-align: center; padding: 20px; background-color: #333; }
+        .navbar a { color: white; text-decoration: none; margin: 0 10px; padding: 10px 20px; }
+        .navbar a:hover { background-color: #575757; }
+
+        .tabs { display: flex; justify-content: center; margin-top: 30px; }
+        .tabs button { padding: 10px 20px; background-color: #333; color: white; border: none; cursor: pointer; }
+        .tabs button.active { background-color: #575757; }
+        .tab-content { display: none; margin-top: 20px; }
+        .tab-content.active { display: block; }
+
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background-color: #333; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #575757; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #333; color: white; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('signup') }}">Signup</a>
+        {% if 'username' in session %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+
+    <div class="tabs">
+        <button class="tab-button active" data-tab="primary">Primary</button>
+        <button class="tab-button" data-tab="history">History</button>
+    </div>
+
+    <!-- Primary Tab Content -->
+    <div id="primary" class="tab-content active">
+        <h2>Ask a Question</h2>
+        <form method="POST">
+            <textarea name="query" rows="4" placeholder="Enter your query..." required></textarea>
+            <button type="submit">Submit Query</button>
+        </form>
+
+        {% if response_text %}
+            <h3>AI Response</h3>
+            <p>{{ response_text }}</p>
+        {% endif %}
+    </div>
+
+    <!-- History Tab Content -->
+    <div id="history" class="tab-content">
+        <h2>Query History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Query</th>
+                    <th>Response</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for query in queries %}
+                <tr>
+                    <td>{{ query['username'] }}</td>
+                    <td>{{ query['userQuery'] }}</td>
+                    <td>{{ query['aiResponse'] }}</td>
+                    <td>{{ query['queriedtime'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const tab = button.getAttribute('data-tab');
+
+                tabContents.forEach(content => {
+                    if (content.id === tab) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
