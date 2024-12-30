@@ -82,7 +82,7 @@ def login():
             session['username'] = user['username']
             session['role'] = user['userrole']
             flash('Login successful!', 'success')
-            return redirect(url_for('primary'))  # Redirect to primary page after login
+            return redirect(url_for('primary'))
         else:
             flash('Invalid credentials. Please try again.', 'danger')
             return redirect(url_for('login'))
@@ -95,10 +95,11 @@ def primary():
     if 'username' not in session:
         flash('Please log in to access the page.', 'warning')
         return redirect(url_for('login'))
-
+    loggeduser='Hello'
     response_text = ""
     if request.method == 'POST':
         user_query = request.form['query']
+       
         queried_time = datetime.now()
 
         # Call Gemini AI
@@ -117,16 +118,23 @@ def primary():
     # Fetch query history for the user
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+    loggeduser=session['username']
     if session['role'] == 'admin' or  session['username'] == 'ramesh':
-        cursor.execute("SELECT * FROM userQuery")  # Admin sees all queries
+        cursor.execute("SELECT * FROM userQuery") 
+        queries = cursor.fetchall() 
+        cursor.execute("SELECT * FROM userdata")
+        userdata = cursor.fetchall()
     else:
         cursor.execute("SELECT * FROM userQuery WHERE username = ?", (session['username'],))  # Regular user sees only their queries
+        userdata=[]
+        queries = cursor.fetchall()
     
-    queries = cursor.fetchall()
+    
+    
     conn.close()
 
-    return render_template('home.html', response_text=response_text, queries=queries)
+
+    return render_template('home.html', response_text=response_text, queries=queries,userdata=userdata,loggeduser=loggeduser)
 
 # Logout Route
 @app.route('/logout')
