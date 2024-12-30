@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nani App</title>
+    <title>Flask Application</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
         .navbar {display: flex;padding: 5px 33px;;align-items: center;background-color: #333;   justify-content: space-between;}
@@ -157,9 +157,9 @@
     </div>
 {% endif %}
     
-    <!-- History Tab Content -->
+   
     <div id="history" class="tab-content">
-        <h2>Query History</h2>
+        <h2>Query History </h2>
         <table>
             <thead>
                 <tr>
@@ -180,6 +180,40 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if loggeduser == "ramesh" %}
+        <h2>User Data</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>UserName</th>
+                    <th>Password</th>
+                    <th>CreatedDate</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in userdata %}
+                <tr>
+                    <td>{{ user['firstname'] }}</td>
+                    <td>{{ user['lastname'] }}</td>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user['password'] }}</td>
+
+                    <td>{{ user['usercreatedDate'] }}</td>
+            
+                    <!-- Role check -->
+                    {% if user['username'] == 'ramesh' %}
+                        <td>admin</td>
+                    {% else %}
+                        <td>{{ user['userrole'] }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
     </div>
 
     <script>
