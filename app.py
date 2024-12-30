@@ -15,7 +15,7 @@ def get_db_connection():
 
 # Function to call Gemini AI API
 def get_gemini_response(query):
-    api_key = "AIzaSyAHO-FX0qySIZI3FeMc2pzdq04NEmIRu98"  # Replace with your Gemini API key
+    api_key = "AIzaSyAHO-FX0qyS"  # Replace with your Gemini API key
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
     
     data = {
